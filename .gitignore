@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Caché de Vite
+.vite/
+# Archivos de caché
+.eslintcache
