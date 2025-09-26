@@ -56,3 +56,51 @@ Esta sección protege directamente los secretos del proyecto y los metadatos pri
 | **`*.local`** | **Protección de Secretos.** Este patrón (usado para archivos como `.env.local`) filtra todas las **variables de entorno sensibles** (p. ej., claves API, credenciales, URLs de servicios privados). Su exclusión es una medida de seguridad fundamental. |
 | **`.vscode/`, `.idea`** | **Mitigación de Fuga de Metadatos.** Estos directorios contienen configuraciones de usuario del IDE (rutas de depuración, historial de búsqueda o *settings* específicos de la máquina). Su exclusión previene la publicación involuntaria de información que podría ser útil para la elaboración de ataques dirigidos. **Nota:** Se mantiene la excepción para `!.vscode/extensions.json` para estandarizar las herramientas de calidad y seguridad. |
 | **`*.suo`, `*.sln`, `.DS_Store`, etc.** | **Metadatos del Sistema/IDE.** Son archivos generados por sistemas operativos (macOS) o IDEs como Visual Studio. No solo son irrelevantes, sino que evitan conflictos al compartir el código entre desarrolladores que usan diferentes herramientas. |
+
+
+# Protección de la Documentación
+La documentación esencial del proyecto, que se considera código fuente y artefactos críticos, se aloja en el repositorio principal y se adhiere a las siguientes prácticas para proteger su integridad y disponibilidad:
+
+## 1. Uso de Ramas Protegidas (Protected Branches)
+La rama principal del repositorio (ej., main o master) que contiene la documentación final y los archivos de código fuente estará protegida.
+
+### Las protecciones incluyen:
+
+Restricción de Pushes: Se prohíbe el push directo a la rama principal. Todos los cambios deben realizarse a través de Pull Requests (PRs).
+
+Revisión Obligatoria de PRs: Se requiere al menos una revisión aprobada por un colaborador designado antes de que se pueda fusionar un PR.
+
+Comprobaciones de Estado (Status Checks): Se deben pasar las pruebas automatizadas (si las hay) antes de la fusión.
+
+## 2. Revisión de Pull Requests (PRs)
+Todo cambio propuesto a la documentación o el código debe pasar por un proceso de revisión por pares.
+
+El revisor es responsable de:
+
+Verificar la corrección y claridad de la documentación.
+
+Asegurar el cumplimiento de los estándares y guías de estilo del proyecto.
+
+Comprobar que no se introduzcan credenciales o información sensible.
+
+## 3. Auditoría de Historial
+Se fomentan los mensajes de commit claros y descriptivos para facilitar la auditoría y el seguimiento de los cambios.
+
+Se restringe la reescritura del historial (ej., uso de git push --force) en las ramas compartidas o principales.
+
+## Garantía de Recuperación del Repositorio
+La recuperación del repositorio ante una pérdida de datos, corrupción o un error grave (ej., eliminación accidental, fallo del proveedor de hosting Git) se garantiza mediante:
+
+### 1.Copias de Seguridad (Backups)
+Copias de Seguridad Externas Automáticas: Se realiza una copia de seguridad diaria y automatizada del repositorio completo (incluyendo el historial) en un servicio de almacenamiento externo y geográficamente separado del proveedor de hosting principal (ej., un mirror en otro servicio Git o almacenamiento en la nube).
+
+#### Retención de Backups: Las copias de seguridad se retienen durante un mínimo de 30 días para permitir la restauración a un punto anterior en el tiempo.
+
+#### Pruebas de Restauración: Se realizan pruebas periódicas trimestrales de restauración a partir de los backups para asegurar la viabilidad del proceso.
+
+### 2. Redundancia de Proveedor 
+El repositorio se mantiene replicado en al menos dos plataformas de hosting Git diferentes (ej., GitHub y GitLab, o GitHub y un servidor Git autoalojado). Esto proporciona redundancia en caso de interrupción del servicio del proveedor principal.
+
+### 3. Mantenimiento del Historial Completo
+Git, por diseño, distribuye el historial completo del repositorio a cada colaborador que lo clona. Si el repositorio central falla, cualquier colaborador con un clone reciente puede, teóricamente, restablecer el repositorio. Esto actúa como una línea de defensa inicial.
+
